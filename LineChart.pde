@@ -22,9 +22,11 @@ void displayCharts() {
     limsCalcd = false;
     fileCount = runCount;  // moved
     read_serial();
-//    lineChart[0].setData(xData, yData);
-    lineChart[runCount].setData(xData, yData);
-    
+    if (iMod==5||iMod==6) { 
+      lineChart[runCount].setData(tData, iData);
+    } else {
+      lineChart[runCount].setData(EData, iData);
+    }
     if(runCount==0){   // run is true, first voltammagram
     calcLimits(true,true);   // new funtion 5/12/17
     }
@@ -198,7 +200,8 @@ int h = b+1;
   }  // end of void calcLimits
 
 void setCharts(){
-  fill(#EADFC9);               // background color
+ // fill(#EADFC9);               // background color
+  fill(#FFFFFF);
   int chartPosX = 200;        // position of background rectangle
   int chartPosY = 70;
   int chartSzX = 475;         // size of background rectangle

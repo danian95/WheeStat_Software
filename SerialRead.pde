@@ -7,12 +7,12 @@
 void  read_serial() {
   float mVmin;
   float mVmax;  
-//  println("serialRead line 10");
+  
   if (serialPort.available () <= 0) {
   }
+  
   if (serialPort.available() > 0) { 
     sData3 = serialPort.readStringUntil(LINE_FEED);  // new JS11/22
-//println("serialRead line 14");
     if (sData3 != null && p != 0) {            //p = reset counter
       String[] tokens = sData3.split(",");
       tokens = trim(tokens);  

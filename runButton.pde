@@ -54,8 +54,9 @@ public void Start_Run() {                // start run button- level 1
  //       println("runButton tab line 21");
  //       if (yData.length != 0 && overlay == 0) {   // from Ben's-6/13/14
  //// new method to clear data files //// June 2015   
-    xData = new float[0];              // clear xData and yData arrays between runs
-    yData = new float[0];
+    iData = new float[0];              // clear xData and yData arrays between runs
+    EData = new float[0];
+    tData = new float[0];
 
           
  println("getting Params");
