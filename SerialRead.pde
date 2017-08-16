@@ -7,17 +7,15 @@
 void  read_serial() {
   float mVmin;
   float mVmax;  
-//  println("serialRead line 10");
   if (serialPort.available () <= 0) {
   }
   if (serialPort.available() > 0) { 
     sData3 = serialPort.readStringUntil(LINE_FEED);  // new JS11/22
-//println("serialRead line 14");
     if (sData3 != null && p != 0) {            //p = reset counter
       String[] tokens = sData3.split(",");
       tokens = trim(tokens);  
       if (run == true) {  
-    //    if (runMode == "ASV" || runMode == "logASV" || runMode == "dif_Pulse") {
+    
         if (iMod == 2 || iMod == 3 || iMod == 4) {
           println("in ASV");
           xRead = Float.parseFloat(tokens[0]);  
@@ -45,8 +43,33 @@ void  read_serial() {
         }
     //////////////////////////end of run ///////////////
         if (xRead == 99999) {  // signals end of run
-          //       if (xRead == 99999  && yRead == 99999) { // signals end of run
-          run = false;    // stops program
+          endRoutine();        // endRoutine defined below
+          }
+         
+        ////////////////////  for log run ////////////////////
+        else if (xRead == 55555)  // start of log run
+        {
+          println("new run");
+        }
+  
+        else {                                   // append data files
+          xData = append(xData, xRead);
+          yData = append(yData, yRead);
+          print("yRead = "+yRead);
+          println(" data length = "+xData.length);
+          xMax[runCount] = max(xData);
+          xMin[runCount] = min(xData);
+          yMax[runCount] = max(yData);
+          yMin[runCount] = min(yData);
+        }
+      }
+    }
+    p +=1;
+  } // end of if serial available > 0
+}
+
+void endRoutine(){
+ run = false;    // stops program
 
           /////////////// added from charts sketch //////////
           xDataL.add (xData);             // enter data files to lists
@@ -83,30 +106,3 @@ void  read_serial() {
           xRead = 0;  
           yRead = 0;
         }  // end of if xRead = 99999 
-        ////////////////////  for log run ////////////////////
-        else if (xRead == 55555)  // start of log run
-        {
-          println("new run");
-        }
-  
-        else {                                   // append data files
-          xData = append(xData, xRead);
-          yData = append(yData, yRead);
-          print("yRead = "+yRead);
-          println(" data length = "+xData.length);
-          xMax[runCount] = max(xData);
-          xMin[runCount] = min(xData);
-          yMax[runCount] = max(yData);
-          yMin[runCount] = min(yData);
-   /*
-          xMax[0] = max(xData);
-          xMin[0] = min(xData);
-          yMax[0] = max(yData);
-          yMin[0] = min(yData);*/
-          //               logData(file1, sData3, true);
-        }
-      }
-    }
-    p +=1;
-  } // end of if serial available > 0
-}
