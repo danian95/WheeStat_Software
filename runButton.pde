@@ -1,6 +1,6 @@
-/* runButton tab, WheeStat6_0 GUI sketch
+/* runButton tab, WheeStat6_0e GUI sketch
    runButtonSetup() -- initiallizes up run button
-   
+ modified to allow data to be saved after scan terminated.  
 */
 
 void runButtonSetup() {
@@ -16,7 +16,6 @@ void runButtonSetup() {
             .setPosition(40, 430)
             .setImages(imgs)      // new
               .setSize(40, 40)
-//                .setTriggerEvent(Bang.RELEASE)
                     .getCaptionLabel().align(ControlP5.CENTER, ControlP5.CENTER)  
                       ;
 
@@ -30,6 +29,7 @@ public void Start_Run() {                // start run button- level 1
     println("end the madness");
     gotparams = false;
     cData = 'a';
+    endRoutine();
   } 
   
   else {                           // beginning of start run loop - level 2
@@ -51,8 +51,6 @@ public void Start_Run() {                // start run button- level 1
       {
         hiI = 0;     // probably not needed
         lowI = 0;
- //       println("runButton tab line 21");
- //       if (yData.length != 0 && overlay == 0) {   // from Ben's-6/13/14
  //// new method to clear data files //// June 2015   
     xData = new float[0];              // clear xData and yData arrays between runs
     yData = new float[0];
@@ -64,7 +62,6 @@ println("got Params");
         //////// serialPort.write writes to microcontroller to begin run //////////////////
         delay(100);  // added from Ben's work on reset
         params[0] = String.valueOf(iMod);
-//        String sMod = String.valueOf(iMod);
 serialPort.clear();
         serialPort.write("&");
         println("Start run");
